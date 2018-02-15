@@ -9,8 +9,8 @@
 import Foundation
 
 // Types of shape possible
-enum Shape {
-    case square
+enum Shape: UInt32 {
+    case square = 0
     case lblock
     case reverselblock
     case squiggly
@@ -48,6 +48,7 @@ enum Color {
     case pink
     case purple
     case blue
+    case white
 }
 
 // Direction for moving shapes left right and down
@@ -61,9 +62,5 @@ enum Direction {
 typealias Position = (row: Int, column: Int)
 
 struct Block {
-    var color: Color
-    
-    init(color: Color) {
-        self.color = color
-    }
+    let color: Color
 }

@@ -21,11 +21,18 @@ class Tetris {
         columnCount = columnsCount
         stepCount = stepsCount
         
-        gameGrid = Grid(type: Block(color: Color.white), rows: rowCount, columns: columnCount)
+        gameGrid = Grid(type: Block(color: Color.yellow), rows: rowCount, columns: columnCount)
+        gameGrid.setAllToNil()
     }
     
     func gameLoop() {
-        
+        if isMoveValid(in: .down) {
+            move(in: .down)
+            endTurn()
+        } else {
+            newShape()
+            
+        }
     }
     
     func shiftPosition(_ position: Position, to direction: Direction) -> Position {
@@ -55,6 +62,34 @@ class Tetris {
     func move(in direction: Direction) {
         if isMoveValid(in: direction) {
             currentShape.position = shiftPosition(currentShape.position, to: direction)
+        } else if direction == Direction.down {
+            newShape()
+        }
+    }
+    
+    func newShape() {
+        for position in currentShape.actualBlockPositions {
+            gameGrid.add(Block(color: currentShape.color), at: position)
+        }
+        currentShape = BlockShape.random()
+    }
+    
+    func checkLine(at line: Int) -> Bool {
+        for x in 0..<rowCount {
+            if gameGrid[x, line] != nil {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func endTurn() {
+        for col in 0..<columnCount {
+            if checkLine(at: col) {
+                gameGrid.grid.remove(at: col)
+//                let newRow: [Position] = Array<Block>(repeatElement(nil, count: rowCount))
+//                gameGrid.grid.append(newRow)
+            }
         }
     }
     

@@ -43,7 +43,7 @@ class Grid<T> {
     }
     
     func add(_ element: T, at position: Position) {
-        grid[position.row][position.column] = element
+        grid[position.column][position.row] = element
     }
     
     func isLineFull(at line: Int) -> Bool {
@@ -55,11 +55,27 @@ class Grid<T> {
         return true
     }
     
-    func replaceLine(at line: Int) {
-        grid.remove(at: line)
-        grid.append(Array<T>(repeatElement(type, count: row)))
+//    func replaceLine(at line: Int) {
+//        grid.remove(at: line)
+//        var newLine: [T] = Array<T>(repeatElement(type, count: row))
+//        grid.append(newLine)
+//        setLineToNil(0)
+//    }
+    
+//    func setLineToNil(_ line: Int) {
+//        for index in 0..<row {
+//            grid[line][index] = nil
+//        }
+//    }
+    
+    func setAllToNil() {
+        for y in 0..<column {
+            for x in 0..<row {
+                grid[y][x] = nil
+            }
+        }
     }
     
     
-    
 }
+

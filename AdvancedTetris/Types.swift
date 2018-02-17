@@ -9,7 +9,7 @@
 import Foundation
 
 // Types of shape possible
-enum Shape: UInt32 {
+enum Shape: Int {
     case square = 0
     case lblock
     case reverselblock

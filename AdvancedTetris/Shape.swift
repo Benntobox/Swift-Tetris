@@ -12,7 +12,7 @@ class BlockShape {
     var orientation: Orientation
     var position: Position
     var color: Color
-    var relativeBlockPositions: [Position]
+    var relativeBlockPositions = [Position]()
     var actualBlockPositions: [Position] {
         return actualPositions(of: relativeBlockPositions)
     }
@@ -20,20 +20,11 @@ class BlockShape {
     init() {
         orientation = .up
         position = (5, 1)
-        color = Color.blue
-        relativeBlockPositions = [Position]()
+        color = Color.white
     }
     
     func rotate() {
-        rotateShape()
-        var newPositions = [Position]()
-        for pos in relativeBlockPositions {
-            newPositions.append((-pos.column, pos.row))
-        }
-        relativeBlockPositions = newPositions
-    }
-    
-    func rotateShape() {
+        relativeBlockPositions = relativeBlockPositions.map { (-$0.column, $0.row) as Position }
         switch orientation {
         case .up:
             orientation = .right
@@ -56,7 +47,7 @@ class BlockShape {
     
     static func random() -> BlockShape {
         let randomNumber = arc4random_uniform(7)
-        switch Shape(rawValue: randomNumber)! {
+        switch Shape(rawValue: Int(randomNumber))! {
         case .square:
             return Square()
         case .line:
@@ -86,47 +77,47 @@ class Square: BlockShape {
 class Line: BlockShape {
     override init() {
         super.init()
-        color = Color.red
-        relativeBlockPositions = [(0, 0), (1, 0), (0, 1), (1, 1)]
+        color = Color.blue
+        relativeBlockPositions = [(0, 0), (-1, 0), (1, 0), (2, 0)]
     }
 }
 
 class LBlock: BlockShape {
     override init() {
         super.init()
-        color = Color.red
-        relativeBlockPositions = [(0, 0), (1, 0), (0, 1), (1, 1)]
+        color = Color.orange
+        relativeBlockPositions = [(0, 0), (1, 0), (-1, 0), (-1, -1)]
     }
 }
 
 class ReverseLBlock: BlockShape {
     override init() {
         super.init()
-        color = Color.red
-        relativeBlockPositions = [(0, 0), (1, 0), (0, 1), (1, 1)]
+        color = Color.green
+        relativeBlockPositions = [(0, 0), (1, 0), (-1, 0), (-1, 1)]
     }
 }
 
 class Squiggly: BlockShape {
     override init() {
         super.init()
-        color = Color.red
-        relativeBlockPositions = [(0, 0), (1, 0), (0, 1), (1, 1)]
+        color = Color.yellow
+        relativeBlockPositions = [(0, 0), (-1, 0), (-1, -1), (0, 1)]
     }
 }
 
 class ReverseSquiggly: BlockShape {
     override init() {
         super.init()
-        color = Color.red
-        relativeBlockPositions = [(0, 0), (1, 0), (0, 1), (1, 1)]
+        color = Color.pink
+        relativeBlockPositions = [(0, 0), (1, 0), (1, -1), (0, -1)]
     }
 }
 
 class TBlock: BlockShape {
     override init() {
         super.init()
-        color = Color.red
-        relativeBlockPositions = [(0, 0), (1, 0), (0, 1), (1, 1)]
+        color = Color.purple
+        relativeBlockPositions = [(0, 0), (1, 0), (-1, 0), (0, 1)]
     }
 }

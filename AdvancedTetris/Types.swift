@@ -45,7 +45,7 @@ enum Color {
     case red
     case yellow
     case orange
-    case pink
+    case gray
     case purple
     case blue
     case white

@@ -26,13 +26,8 @@ class Tetris {
     }
     
     func gameLoop() {
-        if isMoveValid(in: .down) {
-            move(in: .down)
-            endTurn()
-        } else {
-            newShape()
-            
-        }
+        move(in: .down)
+        endTurn()
     }
     
     func shiftPosition(_ position: Position, to direction: Direction) -> Position {
@@ -53,6 +48,13 @@ class Tetris {
             }
         }
         return true
+    }
+    
+    func rotate() {
+        let rotated = currentShape.actualPositions(of: currentShape.getRotated())
+        if isValidPosition(rotated)  {
+            currentShape.rotate()
+        }
     }
     
     func isMoveValid(in direction: Direction) -> Bool {

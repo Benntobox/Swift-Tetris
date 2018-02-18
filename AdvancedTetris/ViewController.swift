@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     }
     
     @objc func tap() {
-        game.currentShape.rotate()
+        game.rotate()
         refreshView()
     }
     
@@ -127,7 +127,7 @@ class ViewController: UIViewController {
             color = UIColor.yellow
         case Color.purple:
             color = UIColor.purple
-        case Color.pink:
+        case Color.gray:
             color = UIColor.gray
         default:
             color = UIColor.white

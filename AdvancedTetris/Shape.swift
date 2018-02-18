@@ -23,6 +23,10 @@ class BlockShape {
         color = Color.white
     }
     
+    func getRotated() -> [Position] {
+        return relativeBlockPositions.map { (-$0.column, $0.row) as Position }
+    }
+    
     func rotate() {
         relativeBlockPositions = relativeBlockPositions.map { (-$0.column, $0.row) as Position }
         switch orientation {
@@ -66,6 +70,12 @@ class BlockShape {
     }
 }
 
+//  Square
+//     -1   0   1
+// -1   o   o   o
+//  0   o   x   x
+//  1   o   x   x
+
 class Square: BlockShape {
     override init() {
         super.init()
@@ -73,6 +83,12 @@ class Square: BlockShape {
         relativeBlockPositions = [(0, 0), (1, 0), (0, 1), (1, 1)]
     }
 }
+
+//  Line
+//     -1   0   1   2
+// -1   o   o   o   o
+//  0   x   x   x   x
+//  1   o   o   o   o
 
 class Line: BlockShape {
     override init() {
@@ -82,6 +98,12 @@ class Line: BlockShape {
     }
 }
 
+//  L-Block
+//     -1   0   1
+// -1   x   o   o
+//  0   x   x   x
+//  1   o   o   o
+
 class LBlock: BlockShape {
     override init() {
         super.init()
@@ -89,6 +111,12 @@ class LBlock: BlockShape {
         relativeBlockPositions = [(0, 0), (1, 0), (-1, 0), (-1, -1)]
     }
 }
+
+//  Reverse L-Block
+//     -1   0   1
+// -1   o   o   o
+//  0   x   x   x
+//  1   x   o   o
 
 class ReverseLBlock: BlockShape {
     override init() {
@@ -98,6 +126,12 @@ class ReverseLBlock: BlockShape {
     }
 }
 
+//  Squiggly
+//     -1   0   1
+// -1   x   o   o
+//  0   x   x   o
+//  1   o   x   o
+
 class Squiggly: BlockShape {
     override init() {
         super.init()
@@ -106,13 +140,25 @@ class Squiggly: BlockShape {
     }
 }
 
+//  Reverse Squiggly
+//     -1   0   1
+// -1   o   o   x
+//  0   o   x   x
+//  1   o   x   o
+
 class ReverseSquiggly: BlockShape {
     override init() {
         super.init()
-        color = Color.pink
-        relativeBlockPositions = [(0, 0), (1, 0), (1, -1), (0, -1)]
+        color = Color.gray
+        relativeBlockPositions = [(0, 0), (1, 0), (1, 1), (0, -1)]
     }
 }
+
+//  Square
+//     -1   0   1
+// -1   o   o   o
+//  0   x   x   x
+//  1   o   x   o
 
 class TBlock: BlockShape {
     override init() {

@@ -8,26 +8,40 @@
 
 import Foundation
 
+protocol GameDelegate: class {
+    func render(grid: Grid<Block?>)
+}
+
 class Tetris {
     var currentShape = BlockShape.random()
-    var gameGrid: Grid<Block>
+    var gameGrid: Grid<Block?>
+    var timer: Timer = Timer()
     
     var rowCount: Int
     var columnCount: Int
-    var stepCount: Int
+    var stepCount: Double
     
-    init(rowsCount: Int, columnsCount: Int, stepsCount: Int) {
+    weak var delegate: GameDelegate?
+    
+    init(rowsCount: Int, columnsCount: Int, stepsCount: Double) {
         rowCount = rowsCount
         columnCount = columnsCount
         stepCount = stepsCount
         
         gameGrid = Grid(type: Block(color: Color.yellow), rows: rowCount, columns: columnCount)
         gameGrid.setAllToNil()
+        
+    }
+    
+    func start() {
+        timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(stepCount), repeats: true, block: { [weak self] _ in
+            self?.gameLoop()
+        })
     }
     
     func gameLoop() {
         move(in: .down)
-        endTurn()
+        delegate?.render(grid: gameGrid)
     }
     
     func shiftPosition(_ position: Position, to direction: Direction) -> Position {
@@ -55,6 +69,7 @@ class Tetris {
         if isValidPosition(rotated)  {
             currentShape.rotate()
         }
+        delegate?.render(grid: gameGrid)
     }
     
     func isMoveValid(in direction: Direction) -> Bool {
@@ -65,8 +80,9 @@ class Tetris {
         if isMoveValid(in: direction) {
             currentShape.position = shiftPosition(currentShape.position, to: direction)
         } else if direction == Direction.down {
-            newShape()
+            endTurn()
         }
+        delegate?.render(grid: gameGrid)
     }
     
     func newShape() {
@@ -76,23 +92,13 @@ class Tetris {
         currentShape = BlockShape.random()
     }
     
-    func checkLine(at line: Int) -> Bool {
-        for x in 0..<rowCount {
-            if gameGrid[x, line] != nil {
-                return false
-            }
-        }
-        return true
-    }
-    
     func endTurn() {
         for col in 0..<columnCount {
-            if checkLine(at: col) {
-                gameGrid.grid.remove(at: col)
-//                let newRow: [Position] = Array<Block>(repeatElement(nil, count: rowCount))
-//                gameGrid.grid.append(newRow)
+            if gameGrid.isLineFull(at: col) {
+                gameGrid.replaceLine(at: col)
             }
         }
+        newShape()
     }
     
 }

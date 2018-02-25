@@ -10,9 +10,9 @@ import Foundation
 
 class Grid<T> {
     var grid: [[T?]]
-    let type: T
-    let row: Int
-    let column: Int
+    private let type: T
+    private let row: Int
+    private let column: Int
     
     init(type: T, rows: Int, columns: Int) {
         self.type = type
@@ -48,30 +48,27 @@ class Grid<T> {
     
     func isLineFull(at line: Int) -> Bool {
         for pos in 0..<row {
-            if grid[pos][line] == nil {
+            if self[pos, line] == nil {
                 return false
             }
         }
         return true
     }
     
-//    func replaceLine(at line: Int) {
-//        grid.remove(at: line)
-//        var newLine: [T] = Array<T>(repeatElement(type, count: row))
-//        grid.append(newLine)
-//        setLineToNil(0)
-//    }
-    
-//    func setLineToNil(_ line: Int) {
-//        for index in 0..<row {
-//            grid[line][index] = nil
-//        }
-//    }
+    func replaceLine(at line: Int) {
+        grid.remove(at: line)
+        var newLine: [T?] = Array<T>(repeatElement(type, count: row))
+        for index in 0..<newLine.count {
+            newLine[index] = nil
+        }
+        let new: [T?] = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+        grid.insert(new, at: 0)
+    }
     
     func setAllToNil() {
-        for y in 0..<column {
-            for x in 0..<row {
-                grid[y][x] = nil
+        for col in 0..<column {
+            for row in 0..<row {
+                self[row, col] = nil
             }
         }
     }

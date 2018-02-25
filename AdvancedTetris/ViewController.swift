@@ -10,13 +10,13 @@ import UIKit
 
 private let rowCount = 10
 private let colCount = 16
-private let stepCount = 1
+private let stepCount = 0.5
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, GameDelegate {
     
     var game = Tetris(rowsCount: rowCount, columnsCount: colCount, stepsCount: stepCount)
     var imageViewGrid = Grid(type: UIView(), rows: rowCount, columns: colCount)
-    
+    var timer: Timer?
     
     // Adds physically drawn square to each view
     override func viewDidLoad() {
@@ -31,6 +31,8 @@ class ViewController: UIViewController {
                 imageViewGrid[row, col] = v
             }
         }
+        
+        game.delegate = imageViewGrid as? GameDelegate
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tap))
         self.view.addGestureRecognizer(tapGesture)
@@ -49,6 +51,19 @@ class ViewController: UIViewController {
         
     }
     
+    func render(grid: Grid<Block?>) {
+        for col in 0..<colCount {
+            for row in 0..<rowCount {
+                if let square = grid[row, col] {
+                    imageViewGrid[row, col]!.backgroundColor = getColor((square?.color)!)
+                } else {
+                    imageViewGrid[row, col]!.backgroundColor = UIColor.white
+                }
+            }
+        }
+        drawCurrentShape()
+    }
+    
     @objc func tap() {
         game.rotate()
         refreshView()
@@ -59,6 +74,7 @@ class ViewController: UIViewController {
         refreshView()
     }
     
+    
     @objc func rightSwipe() {
         game.move(in: .right)
         refreshView()
@@ -66,7 +82,6 @@ class ViewController: UIViewController {
     
     @objc func downSwipe() {
         game.move(in: .down)
-        print(game.isMoveValid(in: .down))
         refreshView()
     }
     
@@ -90,7 +105,7 @@ class ViewController: UIViewController {
             }
         }
         refreshView()
-        //Start Here
+        start()
     }
     
     func drawCurrentShape() {
@@ -103,7 +118,7 @@ class ViewController: UIViewController {
         for col in 0..<colCount {
             for row in 0..<rowCount {
                 if let square = game.gameGrid[row, col] {
-                    imageViewGrid[row, col]!.backgroundColor = getColor(square.color)
+                    imageViewGrid[row, col]!.backgroundColor = getColor((square?.color)!)
                 } else {
                     imageViewGrid[row, col]!.backgroundColor = UIColor.white
                 }
@@ -135,5 +150,11 @@ class ViewController: UIViewController {
         return color
     }
 
+    func start() {
+        timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(stepCount), repeats: true, block: { [weak self] _ in
+            self?.game.move(in: .down)
+            self?.refreshView()
+        })
+    }
 }
 

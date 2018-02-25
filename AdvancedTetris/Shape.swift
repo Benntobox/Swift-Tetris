@@ -150,7 +150,7 @@ class ReverseSquiggly: BlockShape {
     override init() {
         super.init()
         color = Color.gray
-        relativeBlockPositions = [(0, 0), (1, 0), (1, 1), (0, -1)]
+        relativeBlockPositions = [(0, 0), (1, 0), (1, -1), (0, 1)]
     }
 }
 

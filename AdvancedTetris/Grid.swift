@@ -55,14 +55,14 @@ class Grid<T> {
         return true
     }
     
-    func replaceLine(at line: Int) {
-        grid.remove(at: line)
-        var newLine: [T?] = Array<T>(repeatElement(type, count: row))
-        for index in 0..<newLine.count {
-            newLine[index] = nil
+    func checkLines() {
+        for col in 0..<column {
+            if isLineFull(at: col) {
+                grid.remove(at: col)
+                let new: [T?] = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+                grid.insert(new, at: 0)
+            }
         }
-        let new: [T?] = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
-        grid.insert(new, at: 0)
     }
     
     func setAllToNil() {

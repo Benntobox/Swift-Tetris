@@ -50,23 +50,24 @@ class BlockShape {
     }
     
     static func random() -> BlockShape {
-        let randomNumber = arc4random_uniform(7)
-        switch Shape(rawValue: Int(randomNumber))! {
-        case .square:
-            return Square()
-        case .line:
-            return Line()
-        case .lblock:
-            return LBlock()
-        case .reverselblock:
-            return ReverseLBlock()
-        case .squiggly:
-            return Squiggly()
-        case .reversesquiggly:
-            return ReverseSquiggly()
-        case .tblock:
-            return TBlock()
-        }
+        return Line()
+//        let randomNumber = arc4random_uniform(7)
+//        switch Shape(rawValue: Int(randomNumber))! {
+//        case .square:
+//            return Square()
+//        case .line:
+//            return Line()
+//        case .lblock:
+//            return LBlock()
+//        case .reverselblock:
+//            return ReverseLBlock()
+//        case .squiggly:
+//            return Squiggly()
+//        case .reversesquiggly:
+//            return ReverseSquiggly()
+//        case .tblock:
+//            return TBlock()
+//        }
     }
 }
 

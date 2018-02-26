@@ -115,6 +115,7 @@ class ViewController: UIViewController, GameDelegate {
     }
     
     func refreshView() {
+        game.gameGrid.checkAllLines()
         for col in 0..<colCount {
             for row in 0..<rowCount {
                 if let square = game.gameGrid[row, col] {

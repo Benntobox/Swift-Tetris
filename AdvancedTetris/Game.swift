@@ -85,20 +85,12 @@ class Tetris {
         delegate?.render(grid: gameGrid)
     }
     
-    func newShape() {
+    func endTurn() {
         for position in currentShape.actualBlockPositions {
             gameGrid.add(Block(color: currentShape.color), at: position)
         }
+        gameGrid.checkLines()
         currentShape = BlockShape.random()
-    }
-    
-    func endTurn() {
-        for col in 0..<columnCount {
-            if gameGrid.isLineFull(at: col) {
-                gameGrid.replaceLine(at: col)
-            }
-        }
-        newShape()
     }
     
 }

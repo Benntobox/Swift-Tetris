@@ -17,6 +17,8 @@ class Tetris {
     var gameGrid: Grid<Block?>
     var timer: Timer = Timer()
     
+    var score: Int = 0
+    
     var rowCount: Int
     var columnCount: Int
     var stepCount: Double
@@ -89,7 +91,11 @@ class Tetris {
         for position in currentShape.actualBlockPositions {
             gameGrid.add(Block(color: currentShape.color), at: position)
         }
-        gameGrid.checkLines()
+        let lines = gameGrid.checkLines()
+        for line in lines {
+            gameGrid.replaceLine(at: line)
+        }
+        score += lines.count * lines.count * 100
         currentShape = BlockShape.random()
     }
     

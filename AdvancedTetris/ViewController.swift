@@ -10,13 +10,15 @@ import UIKit
 
 private let rowCount = 10
 private let colCount = 16
-private let stepCount = 0.5
+private let stepCount = 1
 
 class ViewController: UIViewController, GameDelegate {
     
-    var game = Tetris(rowsCount: rowCount, columnsCount: colCount, stepsCount: stepCount)
+    var game = Tetris(rowsCount: rowCount, columnsCount: colCount, stepsCount: Double(stepCount))
     var imageViewGrid = Grid(type: UIView(), rows: rowCount, columns: colCount)
     var timer: Timer?
+    
+    var scoreboard: UILabel = UILabel()
     
     // Adds physically drawn square to each view
     override func viewDidLoad() {
@@ -48,6 +50,7 @@ class ViewController: UIViewController, GameDelegate {
         let downSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(downSwipe))
         downSwipeGesture.direction = .down
         self.view.addGestureRecognizer(downSwipeGesture)
+        
         
     }
     
@@ -104,6 +107,13 @@ class ViewController: UIViewController, GameDelegate {
                 print(imageViewGrid[row, col]!.frame)
             }
         }
+        
+        scoreboard = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        scoreboard.center = CGPoint(x: 50, y: 720)
+        scoreboard.textAlignment = .center
+        scoreboard.text = "Score: \(game.score) "
+        self.view.addSubview(scoreboard)
+        
         refreshView()
         start()
     }
@@ -115,7 +125,8 @@ class ViewController: UIViewController, GameDelegate {
     }
     
     func refreshView() {
-        game.gameGrid.checkAllLines()
+        scoreboard.text = "Score: \(game.score)"
+        print(game.score)
         for col in 0..<colCount {
             for row in 0..<rowCount {
                 if let square = game.gameGrid[row, col] {

@@ -19,6 +19,7 @@ class ViewController: UIViewController, GameDelegate {
     var timer: Timer?
     
     var scoreboard: UILabel = UILabel()
+    var restart: UIButton = UIButton()
     
     // Adds physically drawn square to each view
     override func viewDidLoad() {
@@ -51,7 +52,13 @@ class ViewController: UIViewController, GameDelegate {
         downSwipeGesture.direction = .down
         self.view.addGestureRecognizer(downSwipeGesture)
         
+        let restart = UIButton(frame: CGRect(x: 280, y: 710, width: 100, height: 20))
+        restart.backgroundColor = .green
+        restart.setTitle("Restart", for: .normal)
+        restart.addTarget(self, action: #selector(restartGame), for: .touchUpInside)
+        restart.isHidden = false
         
+        self.view.addSubview(restart)
     }
     
     func render(grid: Grid<Block?>) {
@@ -85,6 +92,12 @@ class ViewController: UIViewController, GameDelegate {
     
     @objc func downSwipe() {
         game.move(in: .down)
+        if game.gameover == true { restart.isHidden = false }
+        refreshView()
+    }
+    
+    @objc func restartGame() {
+        game.restart()
         refreshView()
     }
     
@@ -126,7 +139,9 @@ class ViewController: UIViewController, GameDelegate {
     
     func refreshView() {
         scoreboard.text = "Score: \(game.score)"
-        print(game.score)
+        if game.gameover == true {
+            restart.isHidden = false
+        }
         for col in 0..<colCount {
             for row in 0..<rowCount {
                 if let square = game.gameGrid[row, col] {

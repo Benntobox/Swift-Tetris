@@ -18,6 +18,7 @@ class Tetris {
     var timer: Timer = Timer()
     
     var score: Int = 0
+    var gameover = false
     
     var rowCount: Int
     var columnCount: Int
@@ -97,6 +98,16 @@ class Tetris {
         }
         score += lines.count * lines.count * 100
         currentShape = BlockShape.random()
+        if !isMoveValid(in: .down) {
+            gameover = true
+        }
+    }
+    
+    func restart() {
+        gameGrid.setAllToNil()
+        currentShape = BlockShape.random()
+        score = 0
+        gameover = false
     }
     
 }

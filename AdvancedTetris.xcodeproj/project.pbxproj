@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		26EC1C65204104C300F7E562 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EC1C64204104C300F7E562 /* GridView.swift */; };
 		26F31E64202F9F720068A0A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F31E63202F9F720068A0A4 /* AppDelegate.swift */; };
 		26F31E66202F9F720068A0A4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F31E65202F9F720068A0A4 /* ViewController.swift */; };
 		26F31E69202F9F720068A0A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26F31E67202F9F720068A0A4 /* Main.storyboard */; };
@@ -39,7 +38,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		26EC1C64204104C300F7E562 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		26F31E60202F9F720068A0A4 /* AdvancedTetris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdvancedTetris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26F31E63202F9F720068A0A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26F31E65202F9F720068A0A4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -109,7 +107,6 @@
 			children = (
 				26F31E63202F9F720068A0A4 /* AppDelegate.swift */,
 				26F31E65202F9F720068A0A4 /* ViewController.swift */,
-				26EC1C64204104C300F7E562 /* GridView.swift */,
 				26F31E99202FF6D60068A0A4 /* Types.swift */,
 				26F31E91202FE0F00068A0A4 /* Game.swift */,
 				26F31E93202FE0FD0068A0A4 /* Grid.swift */,
@@ -277,7 +274,6 @@
 				26F31E96202FE1060068A0A4 /* Shape.swift in Sources */,
 				26F31E66202F9F720068A0A4 /* ViewController.swift in Sources */,
 				26F31E92202FE0F00068A0A4 /* Game.swift in Sources */,
-				26EC1C65204104C300F7E562 /* GridView.swift in Sources */,
 				26F31E9A202FF6D60068A0A4 /* Types.swift in Sources */,
 				26F31E64202F9F720068A0A4 /* AppDelegate.swift in Sources */,
 				26F31E94202FE0FD0068A0A4 /* Grid.swift in Sources */,

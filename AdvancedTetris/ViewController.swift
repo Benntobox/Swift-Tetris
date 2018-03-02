@@ -35,7 +35,7 @@ class ViewController: UIViewController, GameDelegate {
             }
         }
         
-        game.delegate = imageViewGrid as? GameDelegate
+        game.delegate = self
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tap))
         self.view.addGestureRecognizer(tapGesture)
@@ -52,16 +52,15 @@ class ViewController: UIViewController, GameDelegate {
         downSwipeGesture.direction = .down
         self.view.addGestureRecognizer(downSwipeGesture)
         
-        let restart = UIButton(frame: CGRect(x: 280, y: 710, width: 100, height: 20))
-        restart.backgroundColor = .green
-        restart.setTitle("Restart", for: .normal)
-        restart.addTarget(self, action: #selector(restartGame), for: .touchUpInside)
-        restart.isHidden = false
         
         self.view.addSubview(restart)
     }
     
     func render(grid: Grid<Block?>) {
+        scoreboard.text = "Score: \(game.score)"
+        if game.gameover == true {
+            restart.isHidden = false
+        }
         for col in 0..<colCount {
             for row in 0..<rowCount {
                 if let square = grid[row, col] {
@@ -76,29 +75,24 @@ class ViewController: UIViewController, GameDelegate {
     
     @objc func tap() {
         game.rotate()
-        refreshView()
     }
     
     @objc func leftSwipe() {
         game.move(in: .left)
-        refreshView()
     }
     
     
     @objc func rightSwipe() {
         game.move(in: .right)
-        refreshView()
     }
     
     @objc func downSwipe() {
         game.move(in: .down)
         if game.gameover == true { restart.isHidden = false }
-        refreshView()
     }
     
     @objc func restartGame() {
         game.restart()
-        refreshView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -127,31 +121,21 @@ class ViewController: UIViewController, GameDelegate {
         scoreboard.text = "Score: \(game.score) "
         self.view.addSubview(scoreboard)
         
-        refreshView()
-        start()
+        
+        restart = UIButton(frame: CGRect(x: 280, y: 710, width: 100, height: 20))
+        restart.backgroundColor = .green
+        restart.setTitle("Restart", for: .normal)
+        restart.addTarget(self, action: #selector(restartGame), for: .touchUpInside)
+        restart.isHidden = false
+        self.view.addSubview(restart)
+ 
+        game.start()
     }
     
     func drawCurrentShape() {
         for position in game.currentShape.actualBlockPositions {
             imageViewGrid[position.row, position.column]!.backgroundColor = getColor(game.currentShape.color)
         }
-    }
-    
-    func refreshView() {
-        scoreboard.text = "Score: \(game.score)"
-        if game.gameover == true {
-            restart.isHidden = false
-        }
-        for col in 0..<colCount {
-            for row in 0..<rowCount {
-                if let square = game.gameGrid[row, col] {
-                    imageViewGrid[row, col]!.backgroundColor = getColor((square?.color)!)
-                } else {
-                    imageViewGrid[row, col]!.backgroundColor = UIColor.white
-                }
-            }
-        }
-        drawCurrentShape()
     }
     
     func getColor(_ blockColor: Color) -> UIColor {
@@ -175,13 +159,6 @@ class ViewController: UIViewController, GameDelegate {
             color = UIColor.white
         }
         return color
-    }
-
-    func start() {
-        timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(stepCount), repeats: true, block: { [weak self] _ in
-            self?.game.move(in: .down)
-            self?.refreshView()
-        })
     }
 }
 
